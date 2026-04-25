@@ -1,0 +1,9 @@
+# requirements.txt
+sqlalchemy==2.0.46
+alembic==1.18.1
+aiomysql==0.3.2
+cryptography==46.0.3
+bcrypt==5.0.0
+dotenv==0.9.9
+fastapi
+python-jose[cryptography]==3.5.0

@@ -1,0 +1,32 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: portfolio_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: MyWeb@123.  # 数据库密码
+      MYSQL_DATABASE: portfolio_db
+      MYSQL_USER: admin_portfolio
+      MYSQL_PASSWORD: haha123
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+
+  # MINIO 是一个通过 HTTP(S) 协议访问的分布式文件系统
+  # Object（对象）：实际的数据文件（如 image.jpg）。
+  # Bucket（存储桶）：对象的容器，类似于文件系统的根目录。
+  # Key（键）：对象的全路径（如 /media/2026/vacation.mp4）。
+  # 高性能、云原生、纠删码
+  minio:
+    image: minio/minio
+    container_name: portfolio_minio
+    ports:
+      - "9000:9000"  # API 端口
+      - "9001:9001"  # 控制台端口
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: MyMinio@123.
+    command: server /data --console-address ":9001"
+    volumes:
+      - ./data/minio:/data

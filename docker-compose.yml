@@ -12,6 +12,7 @@ services:
       - "3306:3306"
     volumes:
       - ./data/mysql:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password
 
   # MINIO 是一个通过 HTTP(S) 协议访问的分布式文件系统
   # Object（对象）：实际的数据文件（如 image.jpg）。

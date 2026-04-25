@@ -64,7 +64,7 @@ fastapi dev app/main.py
 
 The interactive API documentation (Swagger UI) will be automatically generated and accessible at: `http://127.0.0.1:8000/docs`.
 
-------
+---
 
 ## 2. How to Handle Outdated Course Design Defenses
 
@@ -75,11 +75,9 @@ Legacy university course designs often still require JSP, Servlets, or tradition
 - **When asked: "Why use JWT instead of traditional Sessions?"**
 
   *Key Response:* Traditional Sessions pile up in server memory, increasing the server's load and causing cross-domain and sharing issues during distributed deployment. Adopting JWT for stateless authentication is the absolute mainstream in current industry microservices and frontend-backend separated architectures.
-
 - **When asked: "Why go through the trouble of using MinIO instead of just uploading to the project's static folder?"**
 
   *Key Response:* Storing files locally leads to a bloated project size, and files cannot be synchronized when scaling servers. Introducing MinIO to build local object storage simulates a cloud-native environment (like AWS S3 or Aliyun OSS), achieving physical isolation of computing and storage.
-
 - **When asked: "What is the difference between FastAPI and traditional frameworks?"**
 
   *Key Response:* FastAPI is based on ASGI (Asynchronous Server Gateway Interface). Traditional synchronous frameworks (like older versions of Flask or Spring) tie up one thread per request, which can exhaust resources due to thread switching during high concurrency. In contrast, this project uses a single-threaded event loop combined with `aiomysql`, capable of handling massive concurrent requests with an extremely low memory footprint.
@@ -104,9 +102,9 @@ Do not write the report as a simple "functional manual." Frame it as an **"Archi
 - Paste your `docker-compose.yml` in this chapter to explain the advantages of containerized deployment.
 - Describe how introducing MinIO solves single points of failure and file persistence issues, showing that your project can not only run locally but is also ready for cloud deployment at any time.
 
-------
+---
 
-------
+---
 
 > # 现代个人博客 API - 课程设计项目
 >
@@ -136,6 +134,27 @@ Do not write the report as a simple "functional manual." Frame it as an **"Archi
 >
 > 确保你的环境中已安装 `Docker`、`docker-compose` 和 Python 3.14。
 >
+> 以下命令针对懒人（windows11）:
+>
+> 1. 安装 wsl2：安装完成 wsl2 后请重启电脑
+>
+>    ```powershell
+>    winget install Microsoft.WSL
+>    ```
+> 2. 安装 Docker Desktop 和 Docker Compose：
+>
+>    - 安装完成后，启动 Docker Desktop。
+>    - 在初始设置中，确保勾选了 "Use the WSL 2 based engine"。
+>
+>    ```powershell
+>    winget install Docker.DockerDesktop
+>    ```
+> 3. 安装 Python 3.14
+>
+>    ```powershell
+>    winget install --id Python.Python.3.14
+>    ```
+>
 > ### 第一步：基础设施搭建
 >
 > 使用提供的 Docker Compose 配置启动 MySQL 和 MinIO 实例：
@@ -143,19 +162,23 @@ Do not write the report as a simple "functional manual." Frame it as an **"Archi
 > ```Bash
 > docker-compose up -d
 > ```
->
 > *注意：MySQL 将暴露在 3306 端口，MinIO API 在 9000 端口。*
 >
 > ### 第二步：环境配置
 >
 > 创建虚拟环境并安装所需的依赖项：
 >
+>> 如果使用的 PyCharm 版本 > 25年，激活虚拟环境可以跳过。
+>>
+>
 > ```Bash
+> # 激活虚拟环境
 > py -3.14 -m venv .venv
 > .\.venv\Scripts\Activate.ps1
+>
+> # 安装依赖包
 > pip install -r requirements.txt
 > ```
->
 > ### 第三步：数据库迁移
 >
 > 使用 Alembic 初始化数据库表结构：
@@ -163,7 +186,6 @@ Do not write the report as a simple "functional manual." Frame it as an **"Archi
 > ```Bash
 > alembic upgrade head
 > ```
->
 > ### 第四步：运行应用程序
 >
 > 启动 FastAPI 服务器：
@@ -171,10 +193,9 @@ Do not write the report as a simple "functional manual." Frame it as an **"Archi
 > ```Bash
 > fastapi dev app/main.py
 > ```
->
 > 交互式 API 文档（Swagger UI）将自动生成，访问地址为：`http://127.0.0.1:8000/docs`。
 >
-> ------
+> ---
 >
 > ### 2. 如何应付过时的课程设计答辩
 >
@@ -184,15 +205,13 @@ Do not write the report as a simple "functional manual." Frame it as an **"Archi
 >
 > - **当老师问：“为什么不用传统的 Session 而用 JWT？”**
 >
->     回答重点：传统 Session 会在服务器内存中堆积，不仅增加服务器负担，而且在分布式部署时存在跨域和共享问题。采用 JWT 实现无状态认证，是目前业界微服务和前后端分离架构的绝对主流。
->
+>   回答重点：传统 Session 会在服务器内存中堆积，不仅增加服务器负担，而且在分布式部署时存在跨域和共享问题。采用 JWT 实现无状态认证，是目前业界微服务和前后端分离架构的绝对主流。
 > - **当老师问：“为什么要多此一举用 MinIO，直接传到项目的 static 文件夹不行吗？”**
 >
->     回答重点：将文件存在本地会导致项目体积臃肿，且扩展服务器时文件无法同步。引入 MinIO 搭建本地对象存储，是为了模拟云原生环境（如 AWS S3 或阿里云 OSS），实现了计算与存储的物理隔离。
->
+>   回答重点：将文件存在本地会导致项目体积臃肿，且扩展服务器时文件无法同步。引入 MinIO 搭建本地对象存储，是为了模拟云原生环境（如 AWS S3 或阿里云 OSS），实现了计算与存储的物理隔离。
 > - **当老师问：“这个 FastAPI 和传统的框架有什么区别？”**
 >
->     回答重点：FastAPI 基于 ASGI（异步服务器网关接口）。传统的同步框架（如老版本的 Flask 或 Spring）是一个请求占用一个线程，高并发时会因线程切换耗尽资源；而本项目使用单线程事件循环配合 `aiomysql`，能以极低的内存占用处理海量并发请求。
+>   回答重点：FastAPI 基于 ASGI（异步服务器网关接口）。传统的同步框架（如老版本的 Flask 或 Spring）是一个请求占用一个线程，高并发时会因线程切换耗尽资源；而本项目使用单线程事件循环配合 `aiomysql`，能以极低的内存占用处理海量并发请求。
 >
 > ### 3. 如何撰写差异化的课程设计报告（拿高分策略）
 >

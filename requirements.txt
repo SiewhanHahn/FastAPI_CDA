@@ -1,8 +1,8 @@
 # requirements.txt
-sqlalchemy==2.0.46
-alembic==1.18.1
+sqlalchemy==2.0.49
+alembic==1.18.4
 aiomysql==0.3.2
-cryptography==46.0.3
+cryptography==47.0.0
 bcrypt==5.0.0
 dotenv==0.9.9
 fastapi
